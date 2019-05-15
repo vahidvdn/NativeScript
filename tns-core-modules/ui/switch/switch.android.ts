@@ -1,5 +1,5 @@
 ﻿import {
-    SwitchBase, Color, colorProperty, backgroundColorProperty, backgroundInternalProperty, checkedProperty, offBackgroundColorProperty
+    SwitchBase, Color, colorProperty, backgroundColorProperty, backgroundInternalProperty, checkedProperty
 } from "./switch-common";
 
 export * from "./switch-common";
@@ -54,24 +54,6 @@ export class Switch extends SwitchBase {
         super.disposeNativeView();
     }
 
-    private setNativeBackgroundColor(value: string | number | Color) {
-        if (value instanceof Color) {
-            this.nativeViewProtected.getTrackDrawable().setColorFilter(value.android, android.graphics.PorterDuff.Mode.SRC_IN);
-        } else {
-            this.nativeViewProtected.getTrackDrawable().clearColorFilter();
-        }
-    }
-
-    _onCheckedPropertyChanged(newValue: boolean) {
-        if (this.offBackgroundColor) {
-            if (!newValue) {
-                this.setNativeBackgroundColor(this.offBackgroundColor);
-            } else {
-                this.setNativeBackgroundColor(this.backgroundColor);
-            }
-        }
-    }
-
     [checkedProperty.getDefault](): boolean {
         return false;
     }
@@ -94,8 +76,10 @@ export class Switch extends SwitchBase {
         return -1;
     }
     [backgroundColorProperty.setNative](value: number | Color) {
-        if (!this.offBackgroundColor || this.checked) {
-            this.setNativeBackgroundColor(value);
+        if (value instanceof Color) {
+            this.nativeViewProtected.getTrackDrawable().setColorFilter(value.android, android.graphics.PorterDuff.Mode.SRC_IN);
+        } else {
+            this.nativeViewProtected.getTrackDrawable().clearColorFilter();
         }
     }
 
@@ -104,14 +88,5 @@ export class Switch extends SwitchBase {
     }
     [backgroundInternalProperty.setNative](value: any) {
         //
-    }
-
-    [offBackgroundColorProperty.getDefault](): number {
-        return -1;
-    }
-    [offBackgroundColorProperty.setNative](value: number | Color) {
-        if (!this.checked) {
-            this.setNativeBackgroundColor(value);
-        }
     }
 }

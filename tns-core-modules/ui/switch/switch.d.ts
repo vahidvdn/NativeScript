@@ -4,7 +4,6 @@
  */ /** */
 
 import { View, Property } from "../core/view";
-import { Color } from "../../color";
 
 /**
  * Represents a switch component.
@@ -25,11 +24,6 @@ export class Switch extends View {
      * Gets or sets if a switch is checked or not.
      */
     checked: boolean;
-
-    /**
-     * Gets or sets the background color of the Switch when it is turned off.
-     */
-    offBackgroundColor: Color;
 }
 
 /**
